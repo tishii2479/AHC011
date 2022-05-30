@@ -7,4 +7,8 @@ echo "[LOG] Compile out/main.swift..."
 
 swiftc out/main.swift -o out/main.o
 
-echo "[LOG] Compile done. -> tools/out/main"
+#echo "[LOG] Compile main.cpp..."
+
+#g++ -std=c++17 main.cpp -o out/main.o
+
+echo "[LOG] Compile done. -> out/main.o"

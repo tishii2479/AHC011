@@ -7,6 +7,9 @@ files = [
     "main.swift",
     "Board.swift",
     "Solver.swift",
+    "TreeConstructor.swift",
+    "MoveConstructor.swift",
+    "UnionFind.swift",
     "IO.swift",
 ]
 

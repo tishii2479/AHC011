@@ -1,17 +1,20 @@
 func main() {
+    let board = readInput()
+    let solver: Solver = SolverV1<TreeConstructorV1, MoveConstructorV1>(board: board)
+    IO.log(solver.solve())
+}
+
+private func readInput() -> Board {
     let arr: [Int] = IO.readIntArray()
     let n: Int = arr[0], _ = arr[1]
-    var rawBoard = [[Int]](repeating: [Int](repeating: 0, count: n), count: n)
+    var tiles = [[Int]](repeating: [Int](repeating: 0, count: n), count: n)
     for i in 0 ..< n {
         let str: String = IO.readString()
         for (j, e) in str.enumerated() {
-            rawBoard[i][j] = Int(String(e), radix: 16)!
+            tiles[i][j] = Int(String(e), radix: 16)!
         }
     }
-    let board = Board(n: n, board: rawBoard)
-    let solver: Solver = SolverV1(board: board)
-    solver.solve()
-    solver.log()
+    return Board(tiles: tiles)
 }
 
 main()
