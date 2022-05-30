@@ -48,6 +48,7 @@ extension IO {
 extension IO {
     enum LogType: String {
         case none   = ""
+        case log    = "[LOG]"
         case info   = "[INFO]"
         case warn   = "[WARN]"
         case error  = "[ERROR]"
@@ -63,14 +64,15 @@ extension IO {
         _ items: Any...,
         separator: String = " ",
         terminator: String = "\n",
-        type: LogType = .none
+        type: LogType = .log
     ) {
 //        if type == .error || type == .warn || type == .info {
-            let output =
-                "[LOG]" + type.rawValue + " "
-                + items.map { "\($0)" }.joined(separator: separator)
-                + terminator
-            fputs(output, stderr)
+        let tag: String = type.rawValue
+        let output =
+            tag + (tag.count > 0 ? " " : "")
+            + items.map { "\($0)" }.joined(separator: separator)
+            + terminator
+        fputs(output, stderr)
 //        }
     }
 
