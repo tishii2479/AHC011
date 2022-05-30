@@ -49,6 +49,7 @@ extension IO {
     enum LogType: String {
         case none   = ""
         case log    = "[LOG]"
+        case debug  = "[DEBUG]"
         case info   = "[INFO]"
         case warn   = "[WARN]"
         case error  = "[ERROR]"
@@ -64,8 +65,9 @@ extension IO {
         _ items: Any...,
         separator: String = " ",
         terminator: String = "\n",
-        type: LogType = .log
+        type: LogType = .debug
     ) {
+//        if type == .debug { return }
 //        if type == .error || type == .warn || type == .info {
         let tag: String = type.rawValue
         let output =

@@ -53,7 +53,7 @@ extension Board {
                 if checkTile.isDir(dir: dir.rev) {
                     connectCount += 1
                 }
-                if checkTile != .none && !checkTile.isDir(dir: dir.rev) ||
+                if (checkTile != .none && !checkTile.isDir(dir: dir.rev)) ||
                     !checkPos.isValid(boardSize: n) {
                     // don't allow unconnected tiles
                     return false
