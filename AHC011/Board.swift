@@ -1,5 +1,16 @@
 class Board {
     private(set) var tiles: [[Tile]]
+    private(set) lazy var zeroTilePos: Pos = {
+        for i in 0 ..< n {
+            for j in 0 ..< n {
+                if tiles[i][j] == .none {
+                    return Pos(x: j, y: i)
+                }
+            }
+        }
+        IO.log("zero tile is not found", type: .warn)
+        return Pos(x: 0, y: 0)
+    }()
     
     var n: Int {
         tiles.count
@@ -11,6 +22,22 @@ class Board {
     
     init(tiles: [[Int]]) {
         self.tiles = tiles.map { $0.map { Tile(rawValue: $0) ?? .none } }
+    }
+    
+    func performMoves(moves: [Move]) {
+        moves.forEach { performMove(move: $0) }
+    }
+    
+    func performMove(move: Move) {
+        let nextPos = zeroTilePos + move.dir.pos
+        guard nextPos.isValid(boardSize: n) else {
+            IO.log("\(nextPos) is invalid", type: .error)
+            return
+        }
+        // swap(&_:,&_:) causes fatal error in some reason
+        tiles[zeroTilePos.y][zeroTilePos.x] = tiles[nextPos.y][nextPos.x]
+        tiles[nextPos.y][nextPos.x] = .none
+        zeroTilePos = nextPos
     }
 }
 
@@ -65,6 +92,15 @@ extension Board {
     
     func placeableTiles(at pos: Pos) -> [Tile] {
         Tile.all.filter { isPlaceable(at: pos, tile: $0) }
+    }
+}
+
+// MARK: Find
+
+extension Board {
+    func findTile(tile: Tile, fromPos: Pos) -> Pos? {
+        // TODO: implement
+        return nil
     }
 }
 

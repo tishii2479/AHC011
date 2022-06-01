@@ -1,7 +1,9 @@
 func main() {
     let board = readInput()
     let solver: Solver = SolverV1<TreeConstructorV1, MoveConstructorV1>(board: board)
-    IO.log(solver.solve())
+    let moves = solver.solve()
+    IO.log(moves.map { $0.str }.joined())
+    IO.output(moves.map { $0.str }.joined())
 }
 
 private func readInput() -> Board {

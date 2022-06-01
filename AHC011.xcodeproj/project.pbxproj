@@ -17,16 +17,19 @@
 		49484304284208E50030D98B /* UnionFind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49484303284208E50030D98B /* UnionFind.swift */; };
 		496E7B5D2843B40100F351C1 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E7B5C2843B40100F351C1 /* Utils.swift */; };
 		49F55DFA28446E74005737B6 /* TileTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F55DF928446E74005737B6 /* TileTest.swift */; };
-		49F55DFB28446EC4005737B6 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E7B5C2843B40100F351C1 /* Utils.swift */; };
-		49F55DFC28446EC4005737B6 /* UnionFind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49484303284208E50030D98B /* UnionFind.swift */; };
-		49F55DFD28446EC4005737B6 /* Values.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494842F72841C6460030D98B /* Values.swift */; };
-		49F55DFE28446EC4005737B6 /* Solver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494842FB2841CB090030D98B /* Solver.swift */; };
-		49F55DFF28446EC4005737B6 /* IO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494842F92841C64A0030D98B /* IO.swift */; };
-		49F55E0028446EC4005737B6 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494842E42841C5BC0030D98B /* main.swift */; };
-		49F55E0128446EC4005737B6 /* MoveConstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49484301284208E00030D98B /* MoveConstructor.swift */; };
-		49F55E0228446EC4005737B6 /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494842FD2841CB2B0030D98B /* Board.swift */; };
-		49F55E0328446EC4005737B6 /* TreeConstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494842FF284208D70030D98B /* TreeConstructor.swift */; };
 		49F55E0528446FD1005737B6 /* BoardTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F55E0428446FD1005737B6 /* BoardTest.swift */; };
+		B1AB0BD22847A117006EDA3B /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1AB0BD12847A117006EDA3B /* Queue.swift */; };
+		B1AB0BD42847A710006EDA3B /* MoveTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1AB0BD32847A710006EDA3B /* MoveTest.swift */; };
+		B1AB0BD62847A790006EDA3B /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494842E42841C5BC0030D98B /* main.swift */; };
+		B1AB0BD72847A790006EDA3B /* TreeConstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494842FF284208D70030D98B /* TreeConstructor.swift */; };
+		B1AB0BD82847A790006EDA3B /* MoveConstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49484301284208E00030D98B /* MoveConstructor.swift */; };
+		B1AB0BD92847A790006EDA3B /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496E7B5C2843B40100F351C1 /* Utils.swift */; };
+		B1AB0BDA2847A790006EDA3B /* UnionFind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49484303284208E50030D98B /* UnionFind.swift */; };
+		B1AB0BDB2847A790006EDA3B /* IO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494842F92841C64A0030D98B /* IO.swift */; };
+		B1AB0BDC2847A790006EDA3B /* Solver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494842FB2841CB090030D98B /* Solver.swift */; };
+		B1AB0BDD2847A790006EDA3B /* Values.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494842F72841C6460030D98B /* Values.swift */; };
+		B1AB0BDE2847A790006EDA3B /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1AB0BD12847A117006EDA3B /* Queue.swift */; };
+		B1AB0BDF2847A790006EDA3B /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494842FD2841CB2B0030D98B /* Board.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -56,6 +59,8 @@
 		496E7B5C2843B40100F351C1 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		49F55DF928446E74005737B6 /* TileTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileTest.swift; sourceTree = "<group>"; };
 		49F55E0428446FD1005737B6 /* BoardTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTest.swift; sourceTree = "<group>"; };
+		B1AB0BD12847A117006EDA3B /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
+		B1AB0BD32847A710006EDA3B /* MoveTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +107,7 @@
 				494842FF284208D70030D98B /* TreeConstructor.swift */,
 				49484301284208E00030D98B /* MoveConstructor.swift */,
 				49484303284208E50030D98B /* UnionFind.swift */,
+				B1AB0BD12847A117006EDA3B /* Queue.swift */,
 				494842FD2841CB2B0030D98B /* Board.swift */,
 				496E7B5C2843B40100F351C1 /* Utils.swift */,
 				494842F72841C6460030D98B /* Values.swift */,
@@ -114,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				49F55DF928446E74005737B6 /* TileTest.swift */,
+				B1AB0BD32847A710006EDA3B /* MoveTest.swift */,
 				49F55E0428446FD1005737B6 /* BoardTest.swift */,
 				494842F32841C5FD0030D98B /* Info.plist */,
 			);
@@ -213,6 +220,7 @@
 				496E7B5D2843B40100F351C1 /* Utils.swift in Sources */,
 				494842E52841C5BC0030D98B /* main.swift in Sources */,
 				494842F82841C6460030D98B /* Values.swift in Sources */,
+				B1AB0BD22847A117006EDA3B /* Queue.swift in Sources */,
 				49484304284208E50030D98B /* UnionFind.swift in Sources */,
 				494842FE2841CB2B0030D98B /* Board.swift in Sources */,
 				494842FC2841CB090030D98B /* Solver.swift in Sources */,
@@ -224,17 +232,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				49F55DFC28446EC4005737B6 /* UnionFind.swift in Sources */,
-				49F55E0228446EC4005737B6 /* Board.swift in Sources */,
+				B1AB0BDC2847A790006EDA3B /* Solver.swift in Sources */,
 				49F55E0528446FD1005737B6 /* BoardTest.swift in Sources */,
-				49F55E0028446EC4005737B6 /* main.swift in Sources */,
-				49F55DFE28446EC4005737B6 /* Solver.swift in Sources */,
-				49F55DFD28446EC4005737B6 /* Values.swift in Sources */,
+				B1AB0BD42847A710006EDA3B /* MoveTest.swift in Sources */,
+				B1AB0BDB2847A790006EDA3B /* IO.swift in Sources */,
+				B1AB0BD72847A790006EDA3B /* TreeConstructor.swift in Sources */,
+				B1AB0BD92847A790006EDA3B /* Utils.swift in Sources */,
+				B1AB0BDF2847A790006EDA3B /* Board.swift in Sources */,
+				B1AB0BDA2847A790006EDA3B /* UnionFind.swift in Sources */,
+				B1AB0BDE2847A790006EDA3B /* Queue.swift in Sources */,
+				B1AB0BD82847A790006EDA3B /* MoveConstructor.swift in Sources */,
+				B1AB0BD62847A790006EDA3B /* main.swift in Sources */,
 				49F55DFA28446E74005737B6 /* TileTest.swift in Sources */,
-				49F55E0128446EC4005737B6 /* MoveConstructor.swift in Sources */,
-				49F55DFF28446EC4005737B6 /* IO.swift in Sources */,
-				49F55E0328446EC4005737B6 /* TreeConstructor.swift in Sources */,
-				49F55DFB28446EC4005737B6 /* Utils.swift in Sources */,
+				B1AB0BDD2847A790006EDA3B /* Values.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

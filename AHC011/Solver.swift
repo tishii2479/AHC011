@@ -1,6 +1,6 @@
 protocol Solver {
     init(board: Board)
-    func solve() -> [Dir]
+    func solve() -> [Move]
 }
 
 final class SolverV1<
@@ -13,7 +13,7 @@ final class SolverV1<
         self.board = board
     }
     
-    func solve() -> [Dir] {
+    func solve() -> [Move] {
         IO.log("Start solve")
         let treeConstructor = T(board: board)
         let endBoard = treeConstructor.construct()

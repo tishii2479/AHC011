@@ -40,7 +40,6 @@ final class TreeConstructorV1: TreeConstructor {
         }
         
         resultBoard.log()
-        IO.log(tileCounts)
         return resultBoard
     }
     

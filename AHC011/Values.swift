@@ -4,6 +4,23 @@ import Foundation
 let runLimitDate = Date().addingTimeInterval(2.8)
 let tileSize = 16
 
+struct Move {
+    var dir: Dir
+    
+    var str: String {
+        switch dir {
+        case .left:
+            return "L"
+        case .up:
+            return "U"
+        case .right:
+            return "R"
+        case .down:
+            return "D"
+        }
+    }
+}
+
 enum Dir: Int {
     case left   = 0b0001
     case up     = 0b0010
@@ -77,11 +94,26 @@ struct Pos {
 }
 
 extension Pos {
-    static func +(lhs: Pos, rhs: Pos) -> Pos {
-        Pos(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
-    }
-    
     func isValid(boardSize: Int) -> Bool {
         x >= 0 && y >= 0 && x < boardSize && y < boardSize
+    }
+}
+
+extension Pos {
+    static func ==(lhs: Pos, rhs: Pos) -> Bool {
+        lhs.y == rhs.y && lhs.x == rhs.x
+    }
+    
+    static func !=(lhs: Pos, rhs: Pos) -> Bool {
+        !(lhs == rhs)
+    }
+    
+    static func +=(lhs: inout Pos, rhs: Pos) {
+        lhs.y += rhs.y
+        lhs.x += rhs.x
+    }
+    
+    static func +(lhs: Pos, rhs: Pos) -> Pos {
+        Pos(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
     }
 }
