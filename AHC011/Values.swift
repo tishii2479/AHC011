@@ -88,9 +88,14 @@ enum Tile: Int {
     ]
 }
 
-struct Pos {
+struct Pos: Hashable {
     var x: Int
     var y: Int
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(x)
+        hasher.combine(y)
+    }
 }
 
 extension Pos {

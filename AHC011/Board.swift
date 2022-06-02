@@ -32,7 +32,7 @@ class Board {
         let nextPos = zeroTilePos + move.dir.pos
         guard nextPos.isValid(boardSize: n) else {
             IO.log("\(nextPos) is invalid", type: .error)
-            return
+            fatalError()
         }
         // swap(&_:,&_:) causes fatal error in some reason
         tiles[zeroTilePos.y][zeroTilePos.x] = tiles[nextPos.y][nextPos.x]
@@ -98,8 +98,17 @@ extension Board {
 // MARK: Find
 
 extension Board {
-    func findTile(tile: Tile, fromPos: Pos) -> Pos? {
-        // TODO: implement
+    func findTile(tile: Tile, fromPos: Pos, excludePos: Set<Pos>) -> Pos? {
+        // TODO: find nearest tile from `fromPos`
+        for i in 0 ..< n {
+            for j in 0 ..< n {
+                let pos = Pos(x: j, y: i)
+                guard !excludePos.contains(pos) else { continue }
+                if tiles[i][j] == tile {
+                    return pos
+                }
+            }
+        }
         return nil
     }
 }

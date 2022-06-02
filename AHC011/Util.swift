@@ -1,15 +1,7 @@
-enum MoveUtil {
-    static func constructDirs(boardSize: Int, from startPos: Pos, to endPos: Pos, excludePos: [Pos]) -> [Dir] {
+enum Util {
+    static func constructDirs(boardSize: Int, from startPos: Pos, to endPos: Pos, excludePos: Set<Pos>) -> [Dir] {
         let inf = 123456
         var dist: [[Int]] = [[Int]](repeating: [Int](repeating: inf, count: boardSize), count: boardSize)
-        let isExcluded: [[Bool]] = {
-            var res: [[Bool]] = [[Bool]](repeating: [Bool](repeating: false, count: boardSize), count: boardSize)
-            for pos in excludePos {
-                res[pos.y][pos.x] = true
-            }
-            return res
-        }()
-
         let queue = Queue<Pos>()
         dist[startPos.y][startPos.x] = 0
         queue.push(startPos)
@@ -19,7 +11,7 @@ enum MoveUtil {
             for dir in Dir.all {
                 let nextPos = pos + dir.pos
                 guard nextPos.isValid(boardSize: boardSize),
-                      !isExcluded[nextPos.y][nextPos.x] else { continue }
+                      !excludePos.contains(nextPos) else { continue }
                 
                 if dist[pos.y][pos.x] + 1 < dist[nextPos.y][nextPos.x] {
                     dist[nextPos.y][nextPos.x] = dist[pos.y][pos.x] + 1
@@ -31,7 +23,7 @@ enum MoveUtil {
         }
         
         guard dist[endPos.y][endPos.x] < inf else {
-            IO.log("\(endPos) is not reachable from \(startPos), \(excludePos), \(dist), \(excludePos)")
+            IO.log("\(endPos) is not reachable from \(startPos), \(excludePos), \(dist)")
             return []
         }
         

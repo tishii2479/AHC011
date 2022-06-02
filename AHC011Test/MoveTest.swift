@@ -14,7 +14,7 @@ class MoveTest: XCTestCase {
         let startPos = Pos(x: 0, y: 0)
         let endPos = Pos(x: 3, y: 2)
         
-        let moves1 = MoveUtil.constructDirs(boardSize: board.n, from: startPos, to: endPos, excludePos: [])
+        let moves1 = Util.constructDirs(boardSize: board.n, from: startPos, to: endPos, excludePos: [])
         
         XCTAssert(moves1.count == 5)
         
@@ -23,11 +23,11 @@ class MoveTest: XCTestCase {
             Pos(x: 1, y: 1),
             Pos(x: 1, y: 2),
         ]
-        let moves2 = MoveUtil.constructDirs(boardSize: board.n, from: startPos, to: endPos, excludePos: excludePos)
+        let moves2 = Util.constructDirs(boardSize: board.n, from: startPos, to: endPos, excludePos: excludePos)
         IO.log(moves2)
         XCTAssert(moves2.count == 7)
         
-        let path = MoveUtil.convertDirToPath(startPos: startPos, dirs: moves2)
+        let path = Util.convertDirToPath(startPos: startPos, dirs: moves2)
         XCTAssert(path[path.count - 1] == endPos)
     }
     
