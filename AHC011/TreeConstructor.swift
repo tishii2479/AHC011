@@ -36,7 +36,6 @@ final class TreeConstructorV1: TreeConstructor {
         let loopCount = 20
         // TODO: do several times
         // TODO: break tree (yakinamashi)
-        // TODO: allow not connected branches at the end
         for _ in 0 ..< loopCount {
             extendBranch()
             trimBranch()
