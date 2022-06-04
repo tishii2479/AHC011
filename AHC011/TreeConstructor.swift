@@ -38,8 +38,8 @@ final class TreeConstructorV1: TreeConstructor {
             addBranch()
         }
         
-        for t in 0 ..< 100 {
-            breakBranch(temperature: Double(t) / 100)
+        for t in 0 ..< 50 {
+            breakBranch(temperature: Double(t) / 50)
         }
         
         // aita tokorowo umeru, migisita ha umenai
@@ -151,12 +151,13 @@ final class TreeConstructorV1: TreeConstructor {
             
             // no improvement, then reset
             // TODO: Add probability
-            if newScore < currentScore {
+            if newScore > currentScore {
+//            if newScore > currentScore || Double(currentScore - newScore) < Double.random(in: 0 ... Double(max(0, 0.8 - temperature) * 5)) {
+//                IO.log("newScore: \(newScore), currentScore: \(currentScore)")
+            } else {
                 tileCounts = tempTileCounts
                 seen = tempSeen
                 resultBoard = tempResultBoard
-            } else {
-//                IO.log("newScore: \(newScore), currentScore: \(currentScore)")
             }
             
             return

@@ -39,7 +39,6 @@ final class SolverV1<
             if expectedTreeSize != actualTreeSize {
                 IO.log("Tree size is not correct: \(expectedTreeSize), \(actualTreeSize)", type: .warn)
             }
-            
             if actualTreeSize > bestTreeSize && move.count <= board.n * board.n * board.n * 2 {
                 bestMove = move
                 bestTreeSize = actualTreeSize

@@ -8,7 +8,7 @@ struct Move {
     var dir: Dir
     
     var str: String {
-        switch dir {g
+        switch dir {
         case .left:
             return "L"
         case .up:

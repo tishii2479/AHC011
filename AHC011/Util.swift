@@ -51,8 +51,7 @@ enum Util {
         var currentPos = endPos
         while currentPos != startPos {
             var checkOk = false
-            // TODO: Add random?
-            for dir in Dir.all {
+            for dir in Dir.all.shuffled() {
                 let nextPos = currentPos + dir.pos
                 guard nextPos.isValid(boardSize: boardSize) else { continue }
                 
