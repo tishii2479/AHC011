@@ -17,11 +17,6 @@ final class MoveConstructorV1: MoveConstructor {
     }
     
     func construct() -> [Move] {
-        IO.log("Current board")
-        currentBoard.log()
-        IO.log("End board")
-        endBoard.log()
-        var excludePos = Set<Pos>()
         for d in 0 ..< currentBoard.n - 2 {
             if d % 2 == 0 {
                 // 6  7  8  9 10 11
@@ -41,14 +36,36 @@ final class MoveConstructorV1: MoveConstructor {
                 // 5, 6
                 findTileAndMove(tile: endBoard.tiles[d + 1][d], to: Pos(x: d, y: d))
                 excludePos.insert(Pos(x: d, y: d))
-                findTileAndMove(tile: endBoard.tiles[d][d], to: Pos(x: d + 1, y: d))
-                excludePos.insert(Pos(x: d + 1, y: d))
-                
-                addMoves(
-                    moves: Util.constructDirs(boardSize: currentBoard.n, from: currentBoard.zeroTilePos, to: Pos(x: d, y: d + 1), excludePos: excludePos)
-                        .map { Move(dir: $0) }
-                )
-                addMoves(moves: [Dir.up, Dir.right].map { Move(dir: $0) })
+
+                if currentBoard.tiles[d + 1][d] == endBoard.tiles[d][d] {
+                    // is stuck
+                    // b
+                    // a
+                    // c x
+                    addMoves(
+                        moves: Util.constructDirs(boardSize: currentBoard.n, from: currentBoard.zeroTilePos, to: Pos(x: d, y: d + 1), excludePos: excludePos)
+                            .map { Move(dir: $0) }
+                    )
+                }
+                if currentBoard.zeroTilePos == Pos(x: d, y: d + 1) && currentBoard.tiles[d + 1][d] == endBoard.tiles[d][d] {
+                    // is blocked
+                    // b
+                    // xa
+                    // c
+                    addMoves(
+                        moves: [Dir.down, Dir.right, Dir.right, Dir.up, Dir.up, Dir.left, Dir.down, Dir.down, Dir.left, Dir.up, Dir.up, Dir.right]
+                            .map { Move(dir: $0) }
+                    )
+                } else {
+                    findTileAndMove(tile: endBoard.tiles[d][d], to: Pos(x: d + 1, y: d))
+                    excludePos.insert(Pos(x: d + 1, y: d))
+                    
+                    addMoves(
+                        moves: Util.constructDirs(boardSize: currentBoard.n, from: currentBoard.zeroTilePos, to: Pos(x: d, y: d + 1), excludePos: excludePos)
+                            .map { Move(dir: $0) }
+                    )
+                    addMoves(moves: [Dir.up, Dir.right].map { Move(dir: $0) })
+                }
                 
                 excludePos.insert(Pos(x: d, y: d + 1))
                 excludePos.remove(Pos(x: d + 1, y: d))
@@ -63,14 +80,40 @@ final class MoveConstructorV1: MoveConstructor {
                 // 10, 11
                 findTileAndMove(tile: endBoard.tiles[d][currentBoard.n - 2], to: Pos(x: currentBoard.n - 1, y: d))
                 excludePos.insert(Pos(x: currentBoard.n - 1, y: d))
-                findTileAndMove(tile: endBoard.tiles[d][currentBoard.n - 1], to: Pos(x: currentBoard.n - 1, y: d + 1))
-                excludePos.insert(Pos(x: currentBoard.n - 1, y: d + 1))
-                
-                addMoves(
-                    moves: Util.constructDirs(boardSize: currentBoard.n, from: currentBoard.zeroTilePos, to: Pos(x: d, y: currentBoard.n - 2), excludePos: excludePos)
-                        .map { Move(dir: $0) }
-                )
-                addMoves(moves: [Dir.right, Dir.down].map { Move(dir: $0) })
+
+                if currentBoard.tiles[d][currentBoard.n - 2] == endBoard.tiles[d][currentBoard.n - 1] {
+                    // is stuck
+                    // cab
+                    // x
+                    //
+                    // to
+                    //
+                    // cxb
+                    //  a
+                    addMoves(
+                        moves: Util.constructDirs(boardSize: currentBoard.n, from: currentBoard.zeroTilePos, to: Pos(x: currentBoard.n - 2, y: d), excludePos: excludePos)
+                            .map { Move(dir: $0) }
+                    )
+                }
+                if currentBoard.zeroTilePos == Pos(x: currentBoard.n - 2, y: d) && currentBoard.tiles[d + 1][currentBoard.n - 2] == endBoard.tiles[d][currentBoard.n - 1] {
+                    // is blocked
+                    // cxb
+                    // da
+                    // e
+                    addMoves(
+                        moves: [Dir.left, Dir.down, Dir.down, Dir.right, Dir.right, Dir.up, Dir.left, Dir.down, Dir.left, Dir.up, Dir.up, Dir.right, Dir.right, Dir.down]
+                            .map { Move(dir: $0) }
+                    )
+                } else {
+                    findTileAndMove(tile: endBoard.tiles[d][currentBoard.n - 1], to: Pos(x: currentBoard.n - 1, y: d + 1))
+                    excludePos.insert(Pos(x: currentBoard.n - 1, y: d + 1))
+                    
+                    addMoves(
+                        moves: Util.constructDirs(boardSize: currentBoard.n, from: currentBoard.zeroTilePos, to: Pos(x: currentBoard.n - 2, y: d), excludePos: excludePos)
+                            .map { Move(dir: $0) }
+                    )
+                    addMoves(moves: [Dir.right, Dir.down].map { Move(dir: $0) })
+                }
                 
                 excludePos.insert(Pos(x: currentBoard.n - 2, y: d))
                 excludePos.remove(Pos(x: currentBoard.n - 1, y: d + 1))
@@ -92,14 +135,34 @@ final class MoveConstructorV1: MoveConstructor {
                 // 15, 16
                 findTileAndMove(tile: endBoard.tiles[d][d + 1], to: Pos(x: d, y: d))
                 excludePos.insert(Pos(x: d, y: d))
-                findTileAndMove(tile: endBoard.tiles[d][d], to: Pos(x: d, y: d + 1))
-                excludePos.insert(Pos(x: d, y: d + 1))
                 
-                addMoves(
-                    moves: Util.constructDirs(boardSize: currentBoard.n, from: currentBoard.zeroTilePos, to: Pos(x: d + 1, y: d), excludePos: excludePos)
-                        .map { Move(dir: $0) }
-                )
-                addMoves(moves: [Dir.left, Dir.down].map { Move(dir: $0) })
+                if currentBoard.tiles[d][d + 1] == endBoard.tiles[d][d] {
+                    // is stuck
+                    // bac
+                    // x
+                    addMoves(
+                        moves: Util.constructDirs(boardSize: currentBoard.n, from: currentBoard.zeroTilePos, to: Pos(x: d + 1, y: d), excludePos: excludePos)
+                            .map { Move(dir: $0) }
+                    )
+                }
+                if currentBoard.zeroTilePos == Pos(x: d + 1, y: d) && currentBoard.tiles[d + 1][d + 1] == endBoard.tiles[d][d] {
+                    // is blocked
+                    // bxc
+                    //  a
+                    addMoves(
+                        moves: [Dir.right, Dir.down, Dir.down, Dir.left, Dir.left, Dir.up, Dir.right, Dir.right, Dir.up, Dir.left, Dir.left, Dir.down]
+                            .map { Move(dir: $0) }
+                    )
+                } else {
+                    findTileAndMove(tile: endBoard.tiles[d][d], to: Pos(x: d, y: d + 1))
+                    excludePos.insert(Pos(x: d, y: d + 1))
+                    
+                    addMoves(
+                        moves: Util.constructDirs(boardSize: currentBoard.n, from: currentBoard.zeroTilePos, to: Pos(x: d + 1, y: d), excludePos: excludePos)
+                            .map { Move(dir: $0) }
+                    )
+                    addMoves(moves: [Dir.left, Dir.down].map { Move(dir: $0) })
+                }
                 
                 excludePos.insert(Pos(x: d + 1, y: d))
                 excludePos.remove(Pos(x: d, y: d + 1))
@@ -112,16 +175,38 @@ final class MoveConstructorV1: MoveConstructor {
                 }
                 
                 // 19, 20
-                findTileAndMove(tile: endBoard.tiles[d][currentBoard.n - 2], to: Pos(x: d, y: currentBoard.n - 1))
+                findTileAndMove(tile: endBoard.tiles[currentBoard.n - 2][d], to: Pos(x: d, y: currentBoard.n - 1))
                 excludePos.insert(Pos(x: d, y: currentBoard.n - 1))
-                findTileAndMove(tile: endBoard.tiles[d][currentBoard.n - 1], to: Pos(x: d + 1, y: currentBoard.n - 1))
-                excludePos.insert(Pos(x: d + 1, y: currentBoard.n - 1))
-                
-                addMoves(
-                    moves: Util.constructDirs(boardSize: currentBoard.n, from: currentBoard.zeroTilePos, to: Pos(x: d, y: currentBoard.n - 2), excludePos: excludePos)
-                        .map { Move(dir: $0) }
-                )
-                addMoves(moves: [Dir.down, Dir.right].map { Move(dir: $0) })
+                if currentBoard.tiles[currentBoard.n - 2][d] == endBoard.tiles[currentBoard.n - 1][d] {
+                    // is stuck
+                    // c
+                    // ax
+                    // b
+                    addMoves(
+                        moves: Util.constructDirs(boardSize: currentBoard.n, from: currentBoard.zeroTilePos, to: Pos(x: d, y: currentBoard.n - 2), excludePos: excludePos)
+                            .map { Move(dir: $0) }
+                    )
+                }
+                if currentBoard.zeroTilePos == Pos(x: d, y: currentBoard.n - 2) && currentBoard.tiles[d + 1][currentBoard.n - 2] == endBoard.tiles[d][currentBoard.n - 1] {
+                    // is blocked
+                    // cde
+                    // xa
+                    // b
+                    //
+                    addMoves(
+                        moves: [Dir.up, Dir.right, Dir.right, Dir.down, Dir.down, Dir.left, Dir.up, Dir.right, Dir.up, Dir.left, Dir.left, Dir.down, Dir.down, Dir.right]
+                            .map { Move(dir: $0) }
+                    )
+                } else {
+                    findTileAndMove(tile: endBoard.tiles[currentBoard.n - 1][d], to: Pos(x: d + 1, y: currentBoard.n - 1))
+                    excludePos.insert(Pos(x: d + 1, y: currentBoard.n - 1))
+                    
+                    addMoves(
+                        moves: Util.constructDirs(boardSize: currentBoard.n, from: currentBoard.zeroTilePos, to: Pos(x: d, y: currentBoard.n - 2), excludePos: excludePos)
+                            .map { Move(dir: $0) }
+                    )
+                    addMoves(moves: [Dir.down, Dir.right].map { Move(dir: $0) })
+                }
                 
                 excludePos.insert(Pos(x: d, y: currentBoard.n - 2))
                 excludePos.remove(Pos(x: d + 1, y: currentBoard.n - 1))
@@ -142,8 +227,6 @@ final class MoveConstructorV1: MoveConstructor {
             return
         }
         constructToMoveTile(from: startPos, to: endPos)
-        IO.log(startPos, endPos)
-        currentBoard.log()
     }
     
     private func constructToMoveTile(from startPos: Pos, to endPos: Pos) {
@@ -156,17 +239,21 @@ final class MoveConstructorV1: MoveConstructor {
         )
         
         for i in 0 ..< path.count - 1 {
-            excludePos.insert(path[i])
             addMoves(
-                moves: Util.constructDirs(boardSize: endBoard.n, from: currentPos, to: path[i + 1], excludePos: excludePos)
-                    .map { Move(dir: $0) }
+                moves: Util.constructDirs(
+                    boardSize: endBoard.n,
+                    from: currentPos, to: path[i + 1],
+                    excludePos: excludePos.union([path[i]])
+                )
+                .map { Move(dir: $0) }
             )
-            excludePos.remove(path[i])
             addMoves(
                 moves: Util.constructDirs(boardSize: endBoard.n, from: path[i + 1], to: path[i], excludePos: excludePos)
                     .map { Move(dir: $0) }
             )
             currentPos = path[i]
         }
+        
+        IO.log("turn:", moves.count, endPos)
     }
 }

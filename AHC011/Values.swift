@@ -122,3 +122,9 @@ extension Pos {
         Pos(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
     }
 }
+
+extension Pos {
+    func dist(pos: Pos) -> Int {
+        abs(x - pos.x) + abs(y - pos.y)
+    }
+}

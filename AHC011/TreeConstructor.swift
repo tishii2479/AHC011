@@ -38,6 +38,23 @@ final class TreeConstructorV1: TreeConstructor {
             trimBranch()
             addBranch()
         }
+
+        IO.log(tileCounts)
+        resultBoard.log()
+        
+        var ptr = 1
+        for i in 0 ..< resultBoard.n {
+            for j in 0 ..< resultBoard.n {
+                while ptr < 16 && tileCounts[ptr] == 0 {
+                    ptr += 1
+                }
+                if resultBoard.tiles[i][j] == .none,
+                   let tile = Tile(rawValue: ptr) {
+                    resultBoard.place(at: Pos(x: j, y: i), tile: tile, force: true)
+                    tileCounts[ptr] -= 1
+                }
+            }
+        }
         
         resultBoard.log()
         return resultBoard

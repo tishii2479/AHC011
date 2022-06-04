@@ -100,16 +100,19 @@ extension Board {
 extension Board {
     func findTile(tile: Tile, fromPos: Pos, excludePos: Set<Pos>) -> Pos? {
         // TODO: find nearest tile from `fromPos`
+        var res: Pos? = nil
+        var currentDist: Int = 123456
         for i in 0 ..< n {
             for j in 0 ..< n {
                 let pos = Pos(x: j, y: i)
                 guard !excludePos.contains(pos) else { continue }
-                if tiles[i][j] == tile {
-                    return pos
+                if tiles[i][j] == tile && fromPos.dist(pos: pos) < currentDist {
+                    res = pos
+                    currentDist = fromPos.dist(pos: pos)
                 }
             }
         }
-        return nil
+        return res
     }
 }
 
@@ -138,7 +141,7 @@ extension Board {
         IO.log(n, type: .none)
         for row in tiles {
             IO.log(
-                row.map { String($0.rawValue) }.joined(separator: " ")
+                row.map { "\($0.rawValue)" }.joined(separator: " ")
                 , type: .none
             )
         }

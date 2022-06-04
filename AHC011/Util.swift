@@ -23,7 +23,25 @@ enum Util {
         }
         
         guard dist[endPos.y][endPos.x] < inf else {
-            IO.log("\(endPos) is not reachable from \(startPos), \(excludePos), \(dist)")
+            IO.log("\(endPos) is not reachable from \(startPos)")
+            for i in 0 ..< boardSize {
+                for j in 0 ..< boardSize {
+                    if excludePos.contains(Pos(x: j, y: i)) {
+                        IO.log("#", terminator: "", type: .none)
+                    }
+                    else {
+                        IO.log(".", terminator: "", type: .none)
+                    }
+                }
+                IO.log("", type: .none)
+            }
+            
+            for i in 0 ..< boardSize {
+                for j in 0 ..< boardSize {
+                    IO.log(dist[i][j], terminator: " ", type: .none)
+                }
+                IO.log("", type: .none)
+            }
             return []
         }
         
