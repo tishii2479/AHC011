@@ -30,6 +30,7 @@
 		B1AB0BDD2847A790006EDA3B /* Values.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494842F72841C6460030D98B /* Values.swift */; };
 		B1AB0BDE2847A790006EDA3B /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1AB0BD12847A117006EDA3B /* Queue.swift */; };
 		B1AB0BDF2847A790006EDA3B /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494842FD2841CB2B0030D98B /* Board.swift */; };
+		B1B7FA28284B27EE00E73A84 /* UtilTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B7FA27284B27EE00E73A84 /* UtilTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -61,6 +62,7 @@
 		49F55E0428446FD1005737B6 /* BoardTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTest.swift; sourceTree = "<group>"; };
 		B1AB0BD12847A117006EDA3B /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		B1AB0BD32847A710006EDA3B /* MoveTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveTest.swift; sourceTree = "<group>"; };
+		B1B7FA27284B27EE00E73A84 /* UtilTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +124,7 @@
 				49F55DF928446E74005737B6 /* TileTest.swift */,
 				B1AB0BD32847A710006EDA3B /* MoveTest.swift */,
 				49F55E0428446FD1005737B6 /* BoardTest.swift */,
+				B1B7FA27284B27EE00E73A84 /* UtilTest.swift */,
 				494842F32841C5FD0030D98B /* Info.plist */,
 			);
 			path = AHC011Test;
@@ -233,6 +236,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B1AB0BDC2847A790006EDA3B /* Solver.swift in Sources */,
+				B1B7FA28284B27EE00E73A84 /* UtilTest.swift in Sources */,
 				49F55E0528446FD1005737B6 /* BoardTest.swift in Sources */,
 				B1AB0BD42847A710006EDA3B /* MoveTest.swift in Sources */,
 				B1AB0BDB2847A790006EDA3B /* IO.swift in Sources */,

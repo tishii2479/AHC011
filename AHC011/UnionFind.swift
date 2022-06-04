@@ -6,10 +6,11 @@ class UnionFind {
         self.n = n
         self.par = [Int](repeating: -1, count: n)
     }
-    
+
+    @discardableResult
     func merge(_ a: Int, _ b: Int) -> Bool {
         var a = root(of: a), b = root(of: b)
-        guard a == b else { return false }
+        guard a != b else { return false }
         if par[a] > par[b] {
             swap(&a, &b)
         }
@@ -45,6 +46,7 @@ class GridUnionFind: UnionFind {
         super.init(n: row * col)
     }
 
+    @discardableResult
     func merge(_ a: Pos, _ b: Pos) -> Bool {
         super.merge(toIndex(pos: a), toIndex(pos: b))
     }

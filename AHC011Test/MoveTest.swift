@@ -18,7 +18,7 @@ class MoveTest: XCTestCase {
         
         XCTAssert(moves1.count == 5)
         
-        let excludePos: [Pos] = [
+        let excludePos: Set<Pos> = [
             Pos(x: 1, y: 0),
             Pos(x: 1, y: 1),
             Pos(x: 1, y: 2),

@@ -24,20 +24,26 @@ class Board {
         self.tiles = tiles.map { $0.map { Tile(rawValue: $0) ?? .none } }
     }
     
-    func performMoves(moves: [Move]) {
-        moves.forEach { performMove(move: $0) }
+    func performMoves(moves: [Move]) -> Bool {
+        for move in moves {
+            if performMove(move: move)  == false {
+                return false
+            }
+        }
+        return true
     }
     
-    func performMove(move: Move) {
+    func performMove(move: Move) -> Bool {
         let nextPos = zeroTilePos + move.dir.pos
         guard nextPos.isValid(boardSize: n) else {
             IO.log("\(nextPos) is invalid", type: .error)
-            fatalError()
+            return false
         }
         // swap(&_:,&_:) causes fatal error in some reason
         tiles[zeroTilePos.y][zeroTilePos.x] = tiles[nextPos.y][nextPos.x]
         tiles[nextPos.y][nextPos.x] = .none
         zeroTilePos = nextPos
+        return true
     }
 }
 
@@ -135,6 +141,11 @@ extension Board {
             counter[tile.rawValue] += 1
         }
         return counter
+    }
+    
+    func copy() -> Board {
+        let board = Board(tiles: tiles.map { $0.map { $0.rawValue } })
+        return board
     }
     
     func log() {

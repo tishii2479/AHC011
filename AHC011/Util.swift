@@ -82,4 +82,53 @@ enum Util {
         }
         return path
     }
+    
+    static func calcTreeSize(board: Board) -> Int {
+        let uf = GridUnionFind(row: board.n, col: board.n)
+        var isLoop = Set<Pos>()
+        for i in 0 ..< board.n {
+            for j in 0 ..< board.n - 1 {
+                if board.tiles[i][j].isDir(dir: .right) && board.tiles[i][j + 1].isDir(dir: .left) {
+                    let l = Pos(x: j, y: i), r = Pos(x: j + 1, y: i)
+                    if uf.same(l, r) {
+                        isLoop.insert(l)
+                    }
+                    uf.merge(l, r)
+                }
+            }
+        }
+        
+        for j in 0 ..< board.n {
+            for i in 0 ..< board.n - 1 {
+                if board.tiles[i][j].isDir(dir: .down) && board.tiles[i + 1][j].isDir(dir: .up) {
+                    let l = Pos(x: j, y: i), r = Pos(x: j, y: i + 1)
+                    if uf.same(l, r) {
+                        isLoop.insert(l)
+                    }
+                    uf.merge(l, r)
+                }
+            }
+        }
+        
+        var isLoopRoot = Set<Pos>()
+        for i in 0 ..< board.n {
+            for j in 0 ..< board.n {
+                let pos = Pos(x: j, y: i)
+                if isLoop.contains(pos) {
+                    isLoopRoot.insert(uf.root(of: pos))
+                }
+            }
+        }
+        
+        var mx = 0
+        for i in 0 ..< board.n {
+            for j in 0 ..< board.n {
+                let pos = Pos(x: j, y: i)
+                if uf.root(of: pos) == pos && !isLoopRoot.contains(pos) {
+                    mx = max(uf.size(of: pos), mx)
+                }
+            }
+        }
+        return mx
+    }
 }

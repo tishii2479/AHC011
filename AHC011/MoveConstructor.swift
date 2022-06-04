@@ -37,7 +37,6 @@ final class MoveConstructorV1: MoveConstructor {
                 findTileAndMove(tile: endBoard.tiles[d + 1][d], to: Pos(x: d, y: d))
                 excludePos.insert(Pos(x: d, y: d))
 
-                IO.log(currentBoard.tiles[d + 1][d], endBoard.tiles[d][d])
                 if currentBoard.tiles[d + 1][d] == endBoard.tiles[d][d] {
                     // is stuck
                     // b
@@ -48,7 +47,6 @@ final class MoveConstructorV1: MoveConstructor {
                             .map { Move(dir: $0) }
                     )
                 }
-                IO.log(currentBoard.zeroTilePos)
                 if currentBoard.zeroTilePos == Pos(x: d, y: d + 1) && currentBoard.tiles[d + 1][d + 1] == endBoard.tiles[d][d] {
                     // is blocked
                     // b
@@ -218,7 +216,11 @@ final class MoveConstructorV1: MoveConstructor {
     }
     
     private func addMoves(moves add: [Move]) {
-        currentBoard.performMoves(moves: add)
+        if !currentBoard.performMoves(moves: add) {
+            currentBoard.log()
+            endBoard.log()
+            fatalError()
+        }
         moves += add
     }
     
@@ -240,6 +242,8 @@ final class MoveConstructorV1: MoveConstructor {
             dirs: Util.constructDirs(boardSize: endBoard.n, from: startPos, to: endPos, excludePos: excludePos)
         )
         
+//        IO.log("turn: \(moves.count), startPos: \(startPos), endPos: \(endPos)")
+        
         for i in 0 ..< path.count - 1 {
             addMoves(
                 moves: Util.constructDirs(
@@ -255,7 +259,5 @@ final class MoveConstructorV1: MoveConstructor {
             )
             currentPos = path[i]
         }
-        
-        IO.log("turn:", moves.count, endPos)
     }
 }
