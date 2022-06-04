@@ -20,7 +20,8 @@ final class SolverV1<
         var bestTreeSize: Int = 0
         var bestMove: [Move] = []
         // TODO: loop, calc score, choose best endboard
-        while Date() < runLimitDate {
+        var loopCount = 0
+        while bestTreeSize < initialBoard.n * initialBoard.n - 1 {
             let board = initialBoard.copy()
             let treeConstructor = T(board: board)
             let endBoard = treeConstructor.construct()
@@ -32,7 +33,9 @@ final class SolverV1<
                 bestTreeSize = treeSize
                 IO.log(bestTreeSize, type: .info)
             }
+            loopCount += 1
         }
+        IO.log("Loop count: \(loopCount)")
         return bestMove
     }
 }

@@ -20,10 +20,14 @@ final class TreeConstructorV1: TreeConstructor {
     
     func construct() -> Board {
         // TODO: Select random
-        let start = Pos(x: 3, y: 3)
+        let start = Pos(x: Int.random(in: 2 ..< initialBoard.n - 2), y: Int.random(in: 2 ..< initialBoard.n - 2))
         // TODO: Select first tile randomly
-        resultBoard.place(at: start, tile: Tile(rawValue: 15)!, force: true)
-        tileCounts[15] -= 1
+        var startTile: Tile? = nil
+        repeat {
+            startTile = Tile(rawValue: [7, 11, 13, 14, 15].randomElement()!)
+        } while startTile == nil || tileCounts[startTile!.rawValue] == 0
+        resultBoard.place(at: start, tile: startTile!, force: true)
+        tileCounts[startTile!.rawValue] -= 1
         
         // just for first case
         seen[start.y][start.x] = true
@@ -45,12 +49,18 @@ final class TreeConstructorV1: TreeConstructor {
                 while ptr < 16 && tileCounts[ptr] == 0 {
                     ptr += 1
                 }
-                if resultBoard.tiles[i][j] == .none,
+                if ptr < 16 && tileCounts[ptr] > 0,
+                   resultBoard.tiles[i][j] == .none,
                    let tile = Tile(rawValue: ptr) {
                     resultBoard.place(at: Pos(x: j, y: i), tile: tile, force: true)
                     tileCounts[ptr] -= 1
                 }
             }
+        }
+        if resultBoard.tiles[resultBoard.n - 1][resultBoard.n - 1] != .none {
+            IO.log(tileCounts)
+            resultBoard.log()
+            fatalError()
         }
         
         return resultBoard

@@ -2,9 +2,9 @@
 
 echo "[LOG] Start test."
 
-out/main.o < in/0000.txt > out/main.log
+out/main.o < in/0001.txt > out/main.log
 
-ahc011-tester in/0000.txt out/main.log
+ahc011-tester in/0001.txt out/main.log
 
 echo "[LOG] End test."
 

@@ -212,6 +212,24 @@ final class MoveConstructorV1: MoveConstructor {
                 excludePos.remove(Pos(x: d + 1, y: currentBoard.n - 1))
             }
         }
+        
+        // 33, 34, 35, 36
+        if currentBoard.n % 2 == 0 {
+            if currentBoard.tiles[currentBoard.n - 1][currentBoard.n - 1] == endBoard.tiles[currentBoard.n - 1][currentBoard.n - 2] {
+                addMoves(moves: [Dir.right].map { Move(dir: $0) })
+            }
+            else {
+                addMoves(moves: [Dir.up, Dir.right, Dir.down].map { Move(dir: $0) })
+            }
+        } else {
+            if currentBoard.tiles[currentBoard.n - 1][currentBoard.n - 1] == endBoard.tiles[currentBoard.n - 2][currentBoard.n - 1] {
+                addMoves(moves: [Dir.down].map { Move(dir: $0) })
+            }
+            else {
+                addMoves(moves: [Dir.left, Dir.down, Dir.right].map { Move(dir: $0) })
+            }
+        }
+        
         return moves
     }
     
