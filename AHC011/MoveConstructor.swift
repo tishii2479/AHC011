@@ -37,6 +37,7 @@ final class MoveConstructorV1: MoveConstructor {
                 findTileAndMove(tile: endBoard.tiles[d + 1][d], to: Pos(x: d, y: d))
                 excludePos.insert(Pos(x: d, y: d))
 
+                IO.log(currentBoard.tiles[d + 1][d], endBoard.tiles[d][d])
                 if currentBoard.tiles[d + 1][d] == endBoard.tiles[d][d] {
                     // is stuck
                     // b
@@ -47,7 +48,8 @@ final class MoveConstructorV1: MoveConstructor {
                             .map { Move(dir: $0) }
                     )
                 }
-                if currentBoard.zeroTilePos == Pos(x: d, y: d + 1) && currentBoard.tiles[d + 1][d] == endBoard.tiles[d][d] {
+                IO.log(currentBoard.zeroTilePos)
+                if currentBoard.zeroTilePos == Pos(x: d, y: d + 1) && currentBoard.tiles[d + 1][d + 1] == endBoard.tiles[d][d] {
                     // is blocked
                     // b
                     // xa
@@ -187,7 +189,7 @@ final class MoveConstructorV1: MoveConstructor {
                             .map { Move(dir: $0) }
                     )
                 }
-                if currentBoard.zeroTilePos == Pos(x: d, y: currentBoard.n - 2) && currentBoard.tiles[d + 1][currentBoard.n - 2] == endBoard.tiles[d][currentBoard.n - 1] {
+                if currentBoard.zeroTilePos == Pos(x: d, y: currentBoard.n - 2) && currentBoard.tiles[currentBoard.n - 2][d + 1] == endBoard.tiles[currentBoard.n - 1][d] {
                     // is blocked
                     // cde
                     // xa
