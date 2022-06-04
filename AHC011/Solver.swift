@@ -21,6 +21,7 @@ final class SolverV1<
         var bestMove: [Move] = []
         // TODO: loop, calc score, choose best endboard
         var loopCount = 0
+//        while bestMove.count == 0 {
         while Date() < runLimitDate {
 //        while bestTreeSize < initialBoard.n * initialBoard.n - 1 {
             loopCount += 1
@@ -42,7 +43,7 @@ final class SolverV1<
             if actualTreeSize > bestTreeSize && move.count <= board.n * board.n * board.n * 2 {
                 bestMove = move
                 bestTreeSize = actualTreeSize
-                IO.log(bestTreeSize, type: .info)
+                IO.log("best tree size is: \(bestTreeSize)", type: .info)
             }
         }
         IO.log("Loop count: \(loopCount)")

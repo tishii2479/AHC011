@@ -1,14 +1,14 @@
 import Foundation
 
 // For time management
-let runLimitDate = Date().addingTimeInterval(2.8)
+let runLimitDate = Date().addingTimeInterval(2.7)
 let tileSize = 16
 
 struct Move {
     var dir: Dir
     
     var str: String {
-        switch dir {
+        switch dir {g
         case .left:
             return "L"
         case .up:

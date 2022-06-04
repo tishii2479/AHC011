@@ -1,3 +1,4 @@
+import Foundation
 protocol TreeConstructor {
     init(board: Board)
     func construct() -> Board
@@ -5,7 +6,7 @@ protocol TreeConstructor {
 
 final class TreeConstructorV1: TreeConstructor {
     private let initialBoard: Board
-    private let resultBoard: Board
+    private var resultBoard: Board
     private var tileCounts: [Int]
     private var allPositions: [Pos]
     private var seen: [[Bool]]
@@ -19,9 +20,7 @@ final class TreeConstructorV1: TreeConstructor {
     }
     
     func construct() -> Board {
-        // TODO: Select random
         let start = Pos(x: Int.random(in: 2 ..< initialBoard.n - 2), y: Int.random(in: 2 ..< initialBoard.n - 2))
-        // TODO: Select first tile randomly
         var startTile: Tile? = nil
         repeat {
             startTile = Tile(rawValue: [7, 11, 13, 14, 15].randomElement()!)
@@ -33,15 +32,17 @@ final class TreeConstructorV1: TreeConstructor {
         seen[start.y][start.x] = true
         allPositions.append(start)
         
-        let loopCount = 20
-        // TODO: do several times
-        // TODO: break tree (yakinamashi)
-        for _ in 0 ..< loopCount {
+        for _ in 0 ..< 4 {
             extendBranch()
             trimBranch()
             addBranch()
         }
         
+        for t in 0 ..< 100 {
+            breakBranch(temperature: Double(t) / 100)
+        }
+        
+        // aita tokorowo umeru, migisita ha umenai
         var ptr = 1
         for i in 0 ..< resultBoard.n {
             for j in 0 ..< resultBoard.n {
@@ -56,13 +57,110 @@ final class TreeConstructorV1: TreeConstructor {
                 }
             }
         }
+
         if resultBoard.tiles[resultBoard.n - 1][resultBoard.n - 1] != .none {
+            IO.log("migisita is not none", type: .warn)
             IO.log(tileCounts)
             resultBoard.log()
-            fatalError()
         }
         
         return resultBoard
+    }
+    
+    private func breakBranch(temperature: Double) {
+        let _startPos: Pos? = {
+            for _ in 0 ..< 10 {
+                let pos = Pos(x: Int.random(in: 0 ..< resultBoard.n), y: Int.random(in: 0 ..< resultBoard.n))
+                if resultBoard.tiles[pos.y][pos.x].rawValue.nonzeroBitCount == 1 ||
+                    pos == Pos(x: resultBoard.n - 1, y: resultBoard.n - 1) {
+                    continue
+                }
+                return pos
+            }
+            return nil
+        }()
+        guard let startPos = _startPos else {
+            return
+        }
+
+        // break one direction, and reset sono saki no tiles
+        for dir in Dir.all.shuffled() {
+            guard resultBoard.tiles[startPos.y][startPos.x].isDir(dir: dir) else { continue }
+            
+            let currentScore = Util.calcTreeSize(board: resultBoard)
+
+            // TODO: break with possibility
+            var removed = Set<Pos>()
+            let queue = Queue<Pos>()
+            queue.push(startPos + dir.pos)
+            
+            while queue.count > 0 {
+                guard let pos = queue.pop() else { break }
+                for dir in Dir.all {
+                    guard resultBoard.tiles[pos.y][pos.x].isDir(dir: dir) else { continue }
+                    let nextPos = pos + dir.pos
+                    if nextPos.isValid(boardSize: resultBoard.n) &&
+                        resultBoard.tiles[nextPos.y][nextPos.x].isDir(dir: dir.rev) &&
+                        nextPos != startPos &&
+                        !removed.contains(nextPos) {
+                        removed.insert(nextPos)
+                        queue.push(nextPos)
+                    }
+                }
+            }
+            
+            // if remove tiles are too big, skip
+            if removed.count > resultBoard.n * 2 {
+                continue
+            }
+
+            let tempTileCounts = tileCounts
+            let tempSeen = seen
+            let tempResultBoard = resultBoard.copy()
+            
+            for removePos in removed {
+                tileCounts[resultBoard.tiles[removePos.y][removePos.x].rawValue] += 1
+                seen[removePos.y][removePos.x] = false
+                resultBoard.place(at: removePos, tile: .none, force: true)
+            }
+            
+            guard let newTileForStartPos = Tile(rawValue: resultBoard.tiles[startPos.y][startPos.x].rawValue - dir.rawValue) else {
+                IO.log("new tile for start pos does not exist, rawValue: \(resultBoard.tiles[startPos.y][startPos.x].rawValue - dir.rawValue)", type: .warn)
+                continue
+            }
+            
+            // if not replacable, skip
+            if tileCounts[newTileForStartPos.rawValue] == 0 {
+                tileCounts = tempTileCounts
+                seen = tempSeen
+                resultBoard = tempResultBoard
+                continue
+            }
+            
+            tileCounts[resultBoard.tiles[startPos.y][startPos.x].rawValue] += 1
+            resultBoard.place(at: startPos, tile: newTileForStartPos, force: true)
+            tileCounts[newTileForStartPos.rawValue] -= 1
+            
+            for _ in 0 ..< 4 {
+                extendBranch()
+                trimBranch()
+                addBranch()
+            }
+            
+            let newScore = Util.calcTreeSize(board: resultBoard)
+            
+            // no improvement, then reset
+            // TODO: Add probability
+            if newScore < currentScore {
+                tileCounts = tempTileCounts
+                seen = tempSeen
+                resultBoard = tempResultBoard
+            } else {
+//                IO.log("newScore: \(newScore), currentScore: \(currentScore)")
+            }
+            
+            return
+        }
     }
     
     private func extendBranch() {
