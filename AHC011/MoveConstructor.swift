@@ -214,27 +214,28 @@ final class MoveConstructorV1: MoveConstructor {
         }
         
         // 33, 34, 35, 36
-        if currentBoard.n % 2 == 0 {
-            if currentBoard.tiles[currentBoard.n - 1][currentBoard.n - 1] == endBoard.tiles[currentBoard.n - 1][currentBoard.n - 2] {
-                addMoves(moves: [Dir.right].map { Move(dir: $0) })
+        var best = 0
+        var bestScore = 0
+        let lastMoves: [Move] = currentBoard.n % 2 == 0
+                                    ? [Dir.up, Dir.right, Dir.down, Dir.left].map { Move(dir: $0) }
+                                    : [Dir.down, Dir.left, Dir.up, Dir.right].map { Move(dir: $0) }
+        for i in 0 ..< 12 {
+            let score = Util.calcTreeSize(board: currentBoard)
+            if score > bestScore {
+                best = i
+                bestScore = score
             }
-            else {
-                addMoves(moves: [Dir.up, Dir.right, Dir.down].map { Move(dir: $0) })
-            }
-        } else {
-            if currentBoard.tiles[currentBoard.n - 1][currentBoard.n - 1] == endBoard.tiles[currentBoard.n - 2][currentBoard.n - 1] {
-                addMoves(moves: [Dir.down].map { Move(dir: $0) })
-            }
-            else {
-                addMoves(moves: [Dir.left, Dir.down, Dir.right].map { Move(dir: $0) })
-            }
+            _ = currentBoard.performMove(move: lastMoves[i % 4])
         }
-        
+        for i in 0 ..< best {
+            moves.append(lastMoves[i % 4])
+            _ = currentBoard.performMove(move: lastMoves[i % 4])
+        }
         return moves
     }
     
     private func addMoves(moves add: [Move]) {
-        if !currentBoard.performMoves(moves: add) {
+        guard currentBoard.performMoves(moves: add) else {
             currentBoard.log()
             endBoard.log()
             fatalError()
