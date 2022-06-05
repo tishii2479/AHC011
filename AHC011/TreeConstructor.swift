@@ -38,8 +38,8 @@ final class TreeConstructorV1: TreeConstructor {
             addBranch()
         }
         
-        for t in 0 ..< 50 {
-            breakBranch(temperature: Double(t) / 50)
+        for t in 0 ..< 100 {
+            breakBranch(temperature: Double(t) / 100)
         }
         
         // aita tokorowo umeru, migisita ha umenai
@@ -71,7 +71,7 @@ final class TreeConstructorV1: TreeConstructor {
         let _startPos: Pos? = {
             for _ in 0 ..< 10 {
                 let pos = Pos(x: Int.random(in: 0 ..< resultBoard.n), y: Int.random(in: 0 ..< resultBoard.n))
-                if resultBoard.tiles[pos.y][pos.x].rawValue.nonzeroBitCount == 1 ||
+                if resultBoard.tiles[pos.y][pos.x].rawValue.nonzeroBitCount <= 1 ||
                     pos == Pos(x: resultBoard.n - 1, y: resultBoard.n - 1) {
                     continue
                 }
@@ -128,7 +128,7 @@ final class TreeConstructorV1: TreeConstructor {
             }
             
             // if not replacable, skip
-            if tileCounts[newTileForStartPos.rawValue] == 0 {
+            guard tileCounts[newTileForStartPos.rawValue] > 0 else {
                 tileCounts = tempTileCounts
                 seen = tempSeen
                 resultBoard = tempResultBoard
@@ -152,7 +152,7 @@ final class TreeConstructorV1: TreeConstructor {
             // TODO: Add probability
             if newScore > currentScore {
 //            if newScore > currentScore || Double(currentScore - newScore) < Double.random(in: 0 ... Double(max(0, 0.8 - temperature) * 5)) {
-//                IO.log("newScore: \(newScore), currentScore: \(currentScore)")
+//                IO.log("\(temperature): newScore: \(newScore), currentScore: \(currentScore)")
             } else {
                 tileCounts = tempTileCounts
                 seen = tempSeen
