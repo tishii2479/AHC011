@@ -3,11 +3,11 @@ import sys
 
 
 def test_run(exe_file):
-    n = 50
-    run = 2
+    n = 100
+    run = 5
     total_sum = 0
     for i in range(n):
-#        print(exe_file + ": " + str(i), file=sys.stderr)
+        print(exe_file + ": " + str(i), file=sys.stderr)
         sum = 0
         in_file = "in/" + str(i).zfill(4) + ".txt"
         out_file = "out/" + str(i).zfill(4) + ".log"
@@ -38,7 +38,9 @@ def test_run(exe_file):
                 total_sum += int(score)
         print("Average score for", in_file, sum / run)
         print("Average is", total_sum / (i+1) / run)
-    print("[RESULT] Average is", total_sum / n / run)
+    print("[RESULT] Average is", total_sum / n / run, ":", exe_file)
 
-
-test_run("out/main.o")
+test_run("out/main_60.o")
+test_run("out/main_90.o")
+test_run("out/main_120.o")
+test_run("out/main_90_20.o")

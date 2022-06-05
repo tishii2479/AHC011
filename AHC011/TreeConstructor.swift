@@ -8,14 +8,14 @@ final class TreeConstructorV1: TreeConstructor {
     private let initialBoard: Board
     private var resultBoard: Board
     private var tileCounts: [Int]
-    private var allPositions: [Pos]
+    private var allPositions: Queue<Pos>
     private var seen: [[Bool]]
     
     init(board: Board) {
         self.initialBoard = board
         self.resultBoard = Board(n: initialBoard.n)
         self.tileCounts = initialBoard.countTiles()
-        self.allPositions = []
+        self.allPositions = Queue<Pos>()
         self.seen = [[Bool]](repeating: [Bool](repeating: false, count: resultBoard.n), count: resultBoard.n)
     }
     
@@ -30,7 +30,7 @@ final class TreeConstructorV1: TreeConstructor {
         
         // just for first case
         seen[start.y][start.x] = true
-        allPositions.append(start)
+        allPositions.push(start)
         
         for _ in 0 ..< 3 {
             extendBranch()
@@ -38,8 +38,11 @@ final class TreeConstructorV1: TreeConstructor {
             addBranch()
         }
         
-        for t in 0 ..< 100 {
-            breakBranch(temperature: Double(t) / 100)
+        for t in 0 ..< 90 {
+            let currentScore = breakBranch(temperature: Double(t) / 90)
+            if currentScore < resultBoard.n * resultBoard.n - resultBoard.n {
+                break
+            }
         }
         
         // aita tokorowo umeru, migisita ha umenai
@@ -67,7 +70,7 @@ final class TreeConstructorV1: TreeConstructor {
         return resultBoard
     }
     
-    private func breakBranch(temperature: Double) {
+    private func breakBranch(temperature: Double) -> Int {
         let _startPos: Pos? = {
             for _ in 0 ..< 10 {
                 let pos = Pos(x: Int.random(in: 0 ..< resultBoard.n), y: Int.random(in: 0 ..< resultBoard.n))
@@ -80,14 +83,14 @@ final class TreeConstructorV1: TreeConstructor {
             return nil
         }()
         guard let startPos = _startPos else {
-            return
+            return 123456
         }
 
         // break one direction, and reset sono saki no tiles
         for dir in Dir.all.shuffled() {
             guard resultBoard.tiles[startPos.y][startPos.x].isDir(dir: dir) else { continue }
             
-            // TODO: break with possibility
+            // TODO: break with probability
             var removed = Set<Pos>()
             let queue = Queue<Pos>()
             queue.push(startPos + dir.pos)
@@ -114,12 +117,10 @@ final class TreeConstructorV1: TreeConstructor {
 
             let tempTileCounts = tileCounts
             let tempSeen = seen
-            let tempResultBoard = resultBoard.copy()
             
             for removePos in removed {
                 tileCounts[resultBoard.tiles[removePos.y][removePos.x].rawValue] += 1
                 seen[removePos.y][removePos.x] = false
-                resultBoard.place(at: removePos, tile: .none, force: true)
             }
             
             guard let newTileForStartPos = Tile(rawValue: resultBoard.tiles[startPos.y][startPos.x].rawValue - dir.rawValue) else {
@@ -131,13 +132,18 @@ final class TreeConstructorV1: TreeConstructor {
             guard tileCounts[newTileForStartPos.rawValue] > 0 else {
                 tileCounts = tempTileCounts
                 seen = tempSeen
-                resultBoard = tempResultBoard
                 continue
             }
             
+            let tempResultBoard = resultBoard.copy()
+
             tileCounts[resultBoard.tiles[startPos.y][startPos.x].rawValue] += 1
             resultBoard.place(at: startPos, tile: newTileForStartPos, force: true)
             tileCounts[newTileForStartPos.rawValue] -= 1
+
+            for removePos in removed {
+                resultBoard.place(at: removePos, tile: .none, force: true)
+            }
             
             for _ in 0 ..< 3 {
                 extendBranch()
@@ -159,18 +165,19 @@ final class TreeConstructorV1: TreeConstructor {
                 resultBoard = tempResultBoard
             }
             
-            return
+            return max(currentScore, newScore)
         }
+        return 123456
     }
     
     private func extendBranch() {
         for _ in 0 ..< 1000 {
-            guard let pos = allPositions.first else {
+            guard let pos = allPositions.pop() else {
                 // No more positions
                 break
             }
             
-            for dir in Dir.all {
+            for dir in Dir.all.shuffled() {
                 let nextPos = pos + dir.pos
                 guard nextPos.isValid(boardSize: resultBoard.n),
                       nextPos != Pos(x: resultBoard.n - 1, y: resultBoard.n - 1) else { continue }
@@ -185,15 +192,12 @@ final class TreeConstructorV1: TreeConstructor {
                         if !seen[nextPos.y][nextPos.x] {
                             // prevent appending newPos again
                             seen[nextPos.y][nextPos.x] = true
-                            allPositions.append(nextPos)
+                            allPositions.push(nextPos)
                         }
                         break
                     }
                 }
             }
-
-            // O(n)
-            allPositions.removeFirst()
         }
     }
     
@@ -218,7 +222,7 @@ final class TreeConstructorV1: TreeConstructor {
                             tileCounts[newTile.rawValue] -= 1
                             tileCounts[current.rawValue] += 1
                             resultBoard.place(at: Pos(x: j, y: i), tile: newTile, force: true)
-                            allPositions.append(Pos(x: j, y: i))
+                            allPositions.push(Pos(x: j, y: i))
                         }
                     }
                 }
