@@ -32,7 +32,7 @@ final class TreeConstructorV1: TreeConstructor {
         seen[start.y][start.x] = true
         allPositions.append(start)
         
-        for _ in 0 ..< 4 {
+        for _ in 0 ..< 3 {
             extendBranch()
             trimBranch()
             addBranch()
@@ -87,8 +87,6 @@ final class TreeConstructorV1: TreeConstructor {
         for dir in Dir.all.shuffled() {
             guard resultBoard.tiles[startPos.y][startPos.x].isDir(dir: dir) else { continue }
             
-            let currentScore = Util.calcTreeSize(board: resultBoard)
-
             // TODO: break with possibility
             var removed = Set<Pos>()
             let queue = Queue<Pos>()
@@ -141,15 +139,16 @@ final class TreeConstructorV1: TreeConstructor {
             resultBoard.place(at: startPos, tile: newTileForStartPos, force: true)
             tileCounts[newTileForStartPos.rawValue] -= 1
             
-            for _ in 0 ..< 4 {
+            for _ in 0 ..< 3 {
                 extendBranch()
                 trimBranch()
                 addBranch()
             }
             
+            let currentScore = Util.calcTreeSize(board: tempResultBoard)
             let newScore = Util.calcTreeSize(board: resultBoard)
             
-            // no improvement, then reset
+            // score improved
             // TODO: Add probability
             if newScore > currentScore {
 //            if newScore > currentScore || Double(currentScore - newScore) < Double.random(in: 0 ... Double(max(0, 0.8 - temperature) * 5)) {

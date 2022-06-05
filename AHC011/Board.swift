@@ -105,7 +105,6 @@ extension Board {
 
 extension Board {
     func findTile(tile: Tile, fromPos: Pos, excludePos: Set<Pos>) -> Pos? {
-        // TODO: find nearest tile from `fromPos`
         var res: Pos? = nil
         var currentDist: Int = 123456
         for i in 0 ..< n {
